@@ -4,17 +4,18 @@ import express from 'express';
 import dotenv from 'dotenv';
 import todo_route from './routes/todo_route.js'
 import cors from 'cors'
-
+import users from './routes/users.js'
 const app = express()
 
 // middlewares 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
 // register routes here
-app.use('/api/tasks', todo_route)
+app.use('/api/tasks', todo_route);
+app.use('/api/users', users);
 
-dotenv.config()
+dotenv.config();
 const PORT = process.env.PORT || 5000
 
 // sunc models
