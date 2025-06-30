@@ -3,8 +3,14 @@ import Todo from "../models/task-model.js";
 
 // Get all tasks
 export const gettasks = ( async (req, res) => {
+    console.log(req.user.id);
+    console.log(req.user)
     try{
-        const tasks = await Todo.findAll()
+        const tasks = await Todo.findAll({
+            where: {
+                userid: req.user.id
+            }
+        })
         if (tasks.length == 0){
             return res.status(400).json({msg: "There are no tasks available"})
         };
@@ -17,13 +23,16 @@ export const gettasks = ( async (req, res) => {
 // Add a new task to todo
 export const addtasks = ( async (req, res) => {
     const {title, completed} = req.body;
+    console.log(req.user.id);
+    console.log(req.user)
     try{
         if (!title){
             return res.status(400).json({sucess: false, msg: "Title is required"});
         }
         const newTask = await Todo.create({
             title,
-            completed: completed ?? false
+            completed: completed ?? false,
+            userid: req.user.id
         });
         res.status(201).json({sucess: true, data: newTask})
     }catch(error){

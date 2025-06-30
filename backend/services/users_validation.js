@@ -3,7 +3,7 @@ export const validateCreatePerson = {
         isLength: {
             options: {
                 min: 3,
-                max: 10
+                max: 32
             },
             errorMessage: 
               "Username must be at least 3 characters with max of 32 characters"

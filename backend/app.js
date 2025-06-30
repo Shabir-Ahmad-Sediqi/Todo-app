@@ -4,16 +4,19 @@ import express from 'express';
 import dotenv from 'dotenv';
 import todo_route from './routes/todo_route.js'
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
 import users from './routes/users.js'
+import isAuthenticated from './middlewares/users_auth.js';
 const app = express()
 
 // middlewares 
 app.use(express.json());
+app.use(cookieParser())
 app.use(cors());
 
 // register routes here
-app.use('/api/tasks', todo_route);
-app.use('/api/users', users);
+app.use('/api/tasks',isAuthenticated ,todo_route);
+app.use('/api', users);
 
 dotenv.config();
 const PORT = process.env.PORT || 5000
