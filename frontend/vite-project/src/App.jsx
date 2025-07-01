@@ -5,6 +5,8 @@ import LoginPage from './pages/loginPage'
 import SignUpPage from './pages/signUpPage'
 import ProtectedRoutes from './components/protected_routes'
 import Navbar from './components/navbar'
+import PublicRoute from './components/publicroutes.jsx'
+import Profile from './pages/profile'
 
 function App() {
 
@@ -12,8 +14,9 @@ function App() {
     <>
       <Navbar/>
       <Routes>
-        <Route path='login' element={<LoginPage/>}/>
-        <Route path='signup' element={<SignUpPage/>}/> 
+        <Route path='/login' element={<PublicRoute><LoginPage/></PublicRoute>}/>
+        <Route path='/signup' element={<PublicRoute><SignUpPage/></PublicRoute>}/> 
+        <Route path='/profile' element={<ProtectedRoutes><Profile/></ProtectedRoutes>}/> 
         <Route path='/'
             element={
               <ProtectedRoutes>
