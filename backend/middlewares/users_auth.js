@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 dotenv.config()
 
 const isAuthenticated = (req, res, next) => {
-    const authHeader = req.headers.authorization
 
     const token = req.cookies.token;
     console.log(token , '-------')

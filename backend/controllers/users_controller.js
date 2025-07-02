@@ -36,7 +36,12 @@ export const Registration = async (req, res) => {
                 expiresIn: "2h"
             }
         )
-        res.status(201).json(
+        const options = {
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+        };
+
+        res.status(201).cookie("token", token, options).json(
             {
                 sucess: true,
                 user: {
@@ -44,7 +49,7 @@ export const Registration = async (req, res) => {
                     username: createUser.username,
                     email: createUser.email
                 },
-                token
+
             })
     } catch (error) {
         res.status(500).json({ success: false, msg: `Error creating user ${error.message}` })
@@ -91,8 +96,6 @@ export const Login = async (req, res) => {
                 email: findUser.email
             }
         })
-
-        console.log(req.cookies)
 
     } catch (error) {
         return res.status(500).json({ success: false, msg: `Something went wrong ${error}` })

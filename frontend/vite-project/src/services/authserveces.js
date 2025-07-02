@@ -16,4 +16,9 @@ export const isAuthenticated = async () => {
 export const Logout = async () => {
     const response = await api.get("logout")
     return response.data
+};
+
+export const Signup = async (username, email, password) => {
+    const response = await api.post("register", {username, email, password})
+    return response.data
 }
