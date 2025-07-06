@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { Logout } from "../services/authserveces";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { forwardRef } from "react";
+
+const MotionLink = motion(
+  forwardRef((props, ref) => <Link ref={ref} {...props} />)
+);
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,46 +23,67 @@ const Navbar = () => {
     }
   };
 
+  const hoverEffect = {
+    scale: 1.1,
+    color: "#60A5FA",
+    transition: { type: "spring", stiffness: 300 },
+  };
+
+  const logoutHover = {
+    scale: 1.1,
+    color: "#F87171",
+    transition: { type: "spring", stiffness: 300 },
+  };
+
   return (
-    <nav className="bg-gradient-to-r from-blue-900 via-blue-950 to-blue-900 text-white px-6 py-4 shadow-xl border-b border-blue-700/40">
+    <nav className="bg-white/60 backdrop-blur-md border-b border-blue-300 shadow-md px-6 py-4">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center">
-        {/* Logo */}
-        <div className="text-3xl font-extrabold bg-gradient-to-r from-white via-blue-300 to-white bg-clip-text text-transparent tracking-wide drop-shadow-md">
+        <div className="text-3xl font-extrabold bg-gradient-to-r from-blue-700 via-blue-500 to-blue-700 bg-clip-text text-transparent tracking-wide drop-shadow-md">
           <Link to="/">MyApp</Link>
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex flex-wrap justify-center sm:justify-end items-center gap-4 mt-3 sm:mt-0 text-lg font-medium">
-          <Link
+        <div className="flex flex-wrap justify-center sm:justify-end items-center gap-4 mt-3 sm:mt-0 text-lg font-medium text-blue-900">
+          <MotionLink
             to="/"
-            className="hover:text-blue-300 transition duration-200 ease-in-out"
+            className="cursor-pointer"
+            whileHover={hoverEffect}
+            whileTap={{ scale: 0.95 }}
           >
             Home
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
             to="/login"
-            className="hover:text-blue-300 transition duration-200 ease-in-out"
+            className="cursor-pointer"
+            whileHover={hoverEffect}
+            whileTap={{ scale: 0.95 }}
           >
             Login
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
             to="/signup"
-            className="hover:text-blue-300 transition duration-200 ease-in-out"
+            className="cursor-pointer"
+            whileHover={hoverEffect}
+            whileTap={{ scale: 0.95 }}
           >
             Signup
-          </Link>
-          <Link
+          </MotionLink>
+          <MotionLink
             to="/profile"
-            className="hover:text-blue-300 transition duration-200 ease-in-out"
+            className="cursor-pointer"
+            whileHover={hoverEffect}
+            whileTap={{ scale: 0.95 }}
           >
             Profile
-          </Link>
-          <button
+          </MotionLink>
+
+          <motion.button
             onClick={handleLogout}
-            className="hover:text-red-400 transition duration-200 ease-in-out"
+            className="cursor-pointer font-medium text-red-600 bg-transparent border-none outline-none"
+            whileHover={logoutHover}
+            whileTap={{ scale: 0.95 }}
           >
             Logout
-          </button>
+          </motion.button>
         </div>
       </div>
     </nav>

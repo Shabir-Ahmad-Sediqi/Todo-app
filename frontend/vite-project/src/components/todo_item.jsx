@@ -1,10 +1,10 @@
-// Todo_item.jsx (styled version)
 import React, { useState } from 'react';
-import Button from './button';
+import { motion } from 'framer-motion';
+import { CheckCircle, Trash2, Pencil } from 'lucide-react';
 
 function Todo_item({ todo, onToggle, onDelete, onEdit }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState('');
+  const [editedText, setEditedText] = useState(todo.title);
 
   const handleEditSave = () => {
     if (!editedText.trim()) return;
@@ -21,30 +21,43 @@ function Todo_item({ todo, onToggle, onDelete, onEdit }) {
     }
   };
 
-  if (!todo) return null;
-
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 p-4 mb-3 bg-gradient-to-r from-blue-800 to-blue-900 border border-blue-500/30 rounded-2xl shadow-xl transition-transform hover:scale-[1.01] w-full">
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ type: 'spring', stiffness: 250, damping: 20 }}
+      className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white border border-blue-200 rounded-xl shadow-sm hover:shadow-md px-5 py-4 transition-all"
+    >
       <div className="flex items-start sm:items-center gap-3 flex-1">
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onChange={() => onToggle(todo.id)}
-          className="w-5 h-5 mt-1 sm:mt-0 accent-white cursor-pointer"
-        />
+        <button
+          onClick={() => onToggle(todo.id)}
+          className="mt-1 sm:mt-0"
+          title="Toggle Complete"
+        >
+          <CheckCircle
+            size={22}
+            className={`transition-colors ${
+              todo.completed ? 'text-blue-600' : 'text-gray-300'
+            }`}
+          />
+        </button>
+
         {isEditing ? (
           <input
             type="text"
             value={editedText}
             onChange={(e) => setEditedText(e.target.value)}
             onKeyDown={keyDown}
-            className="px-3 py-1 rounded-md bg-blue-950 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 w-full shadow-inner"
+            onBlur={handleEditSave}
+            className="flex-1 bg-white border border-blue-300 text-blue-900 px-3 py-1 rounded-md shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-400"
             autoFocus
           />
         ) : (
           <span
-            className={`text-base sm:text-lg font-medium break-words transition-colors ${
-              todo.completed ? 'line-through text-blue-300' : 'text-white'
+            className={`text-base sm:text-lg font-medium break-words flex-1 ${
+              todo.completed ? 'line-through text-blue-400' : 'text-blue-900'
             }`}
           >
             {todo.title}
@@ -52,26 +65,28 @@ function Todo_item({ todo, onToggle, onDelete, onEdit }) {
         )}
       </div>
 
-      <div className="flex justify-end sm:justify-start space-x-2">
-        <Button
+      <div className="flex gap-2 sm:gap-2 mt-2 sm:mt-0">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          className="p-2 rounded-full bg-red-100 hover:bg-red-200 text-red-600 transition"
           onClick={() => onDelete(todo.id)}
-          className="text-white bg-red-600 hover:bg-red-700 rounded-full w-8 h-8 flex items-center justify-center text-xl shadow-lg transition hover:rotate-12"
-          aria-label="Delete todo"
+          aria-label="Delete"
         >
-          &times;
-        </Button>
-        <button
+          <Trash2 size={16} />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 transition"
           onClick={() => {
             setIsEditing(true);
             setEditedText(todo.title);
           }}
-          className="text-white bg-blue-600 hover:bg-blue-700 rounded-full w-8 h-8 flex items-center justify-center text-lg shadow-lg transition hover:scale-110"
-          aria-label="Edit todo"
+          aria-label="Edit"
         >
-          ✏️
-        </button>
+          <Pencil size={16} />
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

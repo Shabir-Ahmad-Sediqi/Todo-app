@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Signup } from "../services/authserveces";
-import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const containerVariant = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      type: "spring",
+    },
+  },
+};
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmitForm = async (e) => {
-    e.preventDefault(); // prevents page from reloading
+    e.preventDefault();
+    setError("");
 
     try {
-      const data = await Signup(username, email, password);
+      await Signup(username, email, password);
       navigate("/");
     } catch (error) {
       const msg =
@@ -27,75 +40,109 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 via-black to-blue-900 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white/5 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 border border-blue-400/30 relative overflow-hidden">
-        <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 blur-lg opacity-25 animate-pulse"></div>
+    <div className="min-h-screen bg-gradient-to-tr from-blue-100 via-white to-blue-200 flex items-center justify-center p-6">
+      <motion.div
+        className="w-full max-w-md bg-white/60 backdrop-blur-xl border border-blue-300 rounded-3xl p-8 shadow-2xl"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariant}
+      >
+        <motion.h2
+          className="text-3xl font-bold text-blue-900 mb-6 text-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          Create an Account
+        </motion.h2>
 
-        <div className="relative z-10">
-          <h2 className="text-4xl font-extrabold text-white mb-6 text-center drop-shadow-lg tracking-wide">
-            Create an Account
-          </h2>
+        {error && (
+          <motion.p
+            className="text-red-600 text-sm text-center mb-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            {error}
+          </motion.p>
+        )}
 
-          {error && (
-            <p className="text-red-400 text-sm text-center mb-4">{error}</p>
-          )}
+        <motion.form
+          onSubmit={handleSubmitForm}
+          className="space-y-5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div>
+            <label htmlFor="username" className="block text-blue-800 mb-1">
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white border border-blue-200 text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
+            />
+          </div>
 
-          <form className="space-y-5" onSubmit={handleSubmitForm}>
-            <div>
-              <label className="block text-sm text-blue-300 mb-1">Username</label>
-              <input
-                type="text"
-                placeholder="Your username"
-                value={username}
-                required
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-2 bg-blue-950 text-white border border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
-              />
-            </div>
+          <div>
+            <label htmlFor="email" className="block text-blue-800 mb-1">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white border border-blue-200 text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm text-blue-300 mb-1">Email</label>
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                required
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 bg-blue-950 text-white border border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
-              />
-            </div>
+          <div>
+            <label htmlFor="password" className="block text-blue-800 mb-1">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white border border-blue-200 text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
+            />
+          </div>
 
-            <div>
-              <label className="block text-sm text-blue-300 mb-1">Password</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                required
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-blue-950 text-white border border-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
-              />
-            </div>
+          <motion.button
+            type="submit"
+            className="w-full py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white font-semibold rounded-lg shadow-lg transition-all"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Sign Up
+          </motion.button>
+        </motion.form>
 
-            <button
-              type="submit"
-              className="w-full py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-lg font-semibold shadow-lg transition duration-300"
-            >
-              Sign Up
-            </button>
-          </form>
-
-          <p className="text-sm text-blue-200 mt-4 text-center">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="underline text-blue-400 hover:text-blue-200 transition"
-            >
-              Log in
-            </Link>
-          </p>
-        </div>
-      </div>
+        <motion.p
+          className="text-sm text-blue-700 mt-5 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="underline text-blue-600 hover:text-blue-800 transition"
+          >
+            Log in
+          </Link>
+        </motion.p>
+      </motion.div>
     </div>
   );
 };

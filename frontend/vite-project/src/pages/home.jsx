@@ -1,4 +1,3 @@
-// Home.jsx (styled version)
 import React, { useEffect, useState } from 'react';
 import Todo_list from '../components/todo_list';
 import {
@@ -8,6 +7,7 @@ import {
   addTask,
   updateTask
 } from '../services/todoServices';
+import { motion } from 'framer-motion';
 
 function Home() {
   const [todos, setTodos] = useState([]);
@@ -49,22 +49,53 @@ function Home() {
     setTodos((prev) => prev.map((todo) => (todo.id === id ? updatedTodo : todo)));
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, type: 'spring' }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-950 to-blue-900 text-white px-4 py-10">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
-          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-white via-blue-300 to-white text-transparent bg-clip-text drop-shadow-xl animate-fade-in">
+    <div className="min-h-screen bg-gradient-to-tr from-blue-100 via-white to-blue-200 text-blue-900 px-4 py-10">
+      <motion.div
+        className="max-w-4xl mx-auto bg-white/60 backdrop-blur-lg border border-blue-300 shadow-xl rounded-2xl p-6"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
+        {/* Header */}
+        <motion.div
+          className="text-center mb-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-800 via-blue-600 to-blue-800 text-transparent bg-clip-text drop-shadow-lg">
             Welcome to Your Dashboard
           </h1>
-          <p className="text-blue-300 mt-4 text-lg italic tracking-wide animate-fade-in">
+          <p className="text-blue-600 mt-4 text-lg italic tracking-wide">
             Manage your tasks with style and speed
           </p>
-        </div>
+        </motion.div>
 
+        {/* Body */}
         {loading ? (
-          <p className="text-blue-200 text-center text-lg animate-pulse">Loading...</p>
+          <motion.p
+            className="text-blue-700 text-center text-lg animate-pulse"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Loading...
+          </motion.p>
         ) : (
-          <div className="animate-fade-in-up">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             <Todo_list
               todos={todos}
               onToggle={handleToggleTodo}
@@ -72,9 +103,9 @@ function Home() {
               onadd={handleAddTask}
               onEdit={handleEditTask}
             />
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
