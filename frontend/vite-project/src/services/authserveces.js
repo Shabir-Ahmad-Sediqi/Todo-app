@@ -21,4 +21,15 @@ export const Logout = async () => {
 export const Signup = async (username, email, password) => {
     const response = await api.post("register", {username, email, password})
     return response.data
+};
+
+export const UserInfo = async () => {
+    const response = await api.get("/profile");
+    return response.data.data
+};
+
+export const UpdateProfileBio = async (bio) => {
+    const response = await api.patch("/profile/bio", {bio})
+    return response.data
 }
+

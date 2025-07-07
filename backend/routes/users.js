@@ -4,7 +4,7 @@ import {Registration, getUsers, Login, LogOut} from '../controllers/users_contro
 import { validateCreatePerson } from '../services/users_validation.js';
 import { checkSchema } from 'express-validator';
 import { isloggedIn } from '../middlewares/verifyToken.js';
-import { userProfile } from '../controllers/user_profile.js';
+import { userProfile, userProfileBio } from '../controllers/user_profile.js';
 import isAuthenticated from '../middlewares/users_auth.js';
 
 
@@ -24,5 +24,6 @@ router.route('/isloggedIn').get(isloggedIn)
 
 // User profile route goes here
 router.route('/profile').get(isAuthenticated, userProfile)
+router.route('/profile/bio').patch(isAuthenticated, userProfileBio)
 
 export default router

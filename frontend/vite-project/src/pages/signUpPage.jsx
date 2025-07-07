@@ -19,6 +19,7 @@ const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -27,8 +28,12 @@ const SignUpPage = () => {
     setError("");
 
     try {
-      await Signup(username, email, password);
-      navigate("/");
+      if (password === ConfirmPassword){
+          await Signup(username, email, password);
+          navigate("/");
+      }else{
+        setError("Confirm Password does not match password")
+      }
     } catch (error) {
       const msg =
         error.response?.data?.msg ||
@@ -113,6 +118,20 @@ const SignUpPage = () => {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-2 rounded-lg bg-white border border-blue-200 text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
+            />
+          </div>
+              <div>
+            <label htmlFor="confirm password" className="block text-blue-800 mb-1">
+              Confirm Password
+            </label>
+            <input
+              id="confirm password"
+              type="password"
+              placeholder="••••••••"
+              value={ConfirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
               className="w-full px-4 py-2 rounded-lg bg-white border border-blue-200 text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-inner"
             />

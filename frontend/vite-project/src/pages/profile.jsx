@@ -1,14 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { UserInfo, UpdateProfileBio } from "../services/authserveces";
+
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile");
+  const [bio, setBio] = useState("")
+  const [userProfile, setUserProfile] = useState({})
 
-  const user = {
-    username: "Shabir Ahmad",
-    email: "shabir@example.com",
-    avatar: "https://i.pravatar.cc/150?img=3"
+  useEffect(() => {
+    user()
+  }, [])
+
+  const user = async () => {
+    try{
+      const response = await UserInfo()
+      console.log(response)
+      if (!response) return 
+      setUserProfile(response)
+      setBio(response.bio)
+    }catch(error){
+      console.log(`Error from profile ${error}`)
+    }
   };
+
+  const updateBio = async () => {
+    try{
+      await UpdateProfileBio(bio)
+    }catch(error){
+      console.log(`Error in updating bio ${error}`)
+    }
+  }
 
   const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -31,8 +53,8 @@ export default function ProfilePage() {
             className="w-24 h-24 rounded-full ring-4 ring-blue-400 shadow-lg"
           />
           <div>
-            <h2 className="text-3xl font-bold text-blue-900">{user.username}</h2>
-            <p className="text-blue-600">{user.email}</p>
+            <h2 className="text-3xl font-bold text-blue-900">{userProfile.username}</h2>
+            <p className="text-blue-600">{userProfile.email}</p>
           </div>
         </motion.div>
 
@@ -60,12 +82,12 @@ export default function ProfilePage() {
               <label className="block text-blue-700 mb-1">Username</label>
               <input
                 className="w-full p-3 rounded-md bg-white border border-blue-200 mb-4 focus:outline-blue-500"
-                defaultValue={user.username}
+                defaultValue={userProfile.username}
               />
               <label className="block text-blue-700 mb-1">Email</label>
               <input
                 className="w-full p-3 rounded-md bg-white border border-blue-200 focus:outline-blue-500"
-                defaultValue={user.email}
+                defaultValue={userProfile.email}
               />
             </div>
           )}
@@ -76,8 +98,12 @@ export default function ProfilePage() {
               <textarea
                 className="w-full p-3 rounded-md bg-white border border-blue-200 h-28 focus:outline-blue-500"
                 placeholder="Tell us about yourself..."
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
               />
-              <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition duration-200">
+              <button 
+              onClick={updateBio}
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition duration-200">
                 Save Changes
               </button>
             </div>

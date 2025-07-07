@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 5000
 
 // sunc models
 
-sequelize.sync()
+sequelize.sync({alter: true})
     .then(() => {
         console.log("all models were synced successfully")
     })
