@@ -27,8 +27,11 @@ Install dependencies separately for backend and frontend:
 bash
 Copy
 Edit
+
+Note: Before installing dependencies first delete package-lock-json, it will save you alot of time.
+
 # Backend
-cd backend
+cd Mern-Todo-App
 npm install
 
 # Frontend
@@ -47,7 +50,7 @@ bash
 Copy
 Edit
 # Backend server
-cd backend
+cd Mern-Todo-App
 npm run dev
 
 # Frontend server
@@ -69,7 +72,3 @@ Feel free to open issues or submit pull requests to improve the app.
 
 
 Extensions that i am using are the following
-
-1. One Monokai Theme
-2. Save Typing
-3. Es7 React/Redux

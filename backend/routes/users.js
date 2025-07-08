@@ -1,10 +1,10 @@
 
 import express from 'express';
 import {Registration, getUsers, Login, LogOut} from '../controllers/users_controller.js';
-import { validateCreatePerson } from '../services/users_validation.js';
+import { validateCreatePerson, ValidateOnlyPassword } from '../services/users_validation.js';
 import { checkSchema } from 'express-validator';
 import { isloggedIn } from '../middlewares/verifyToken.js';
-import { userProfile, userProfileBio } from '../controllers/user_profile.js';
+import { changePassword, userProfile, userProfileBio } from '../controllers/user_profile.js';
 import isAuthenticated from '../middlewares/users_auth.js';
 
 
@@ -25,5 +25,8 @@ router.route('/isloggedIn').get(isloggedIn)
 // User profile route goes here
 router.route('/profile').get(isAuthenticated, userProfile)
 router.route('/profile/bio').patch(isAuthenticated, userProfileBio)
+
+//change password route
+router.route('/changePassword').post(checkSchema(ValidateOnlyPassword), isAuthenticated, changePassword)
 
 export default router

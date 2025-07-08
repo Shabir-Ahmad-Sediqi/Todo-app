@@ -33,3 +33,8 @@ export const UpdateProfileBio = async (bio) => {
     return response.data
 }
 
+export const changePassword = async (password, confirmPassword) => {
+    const response = await api.post("/changePassword", {password, confirmPassword})
+    return response.data.msg
+}
+

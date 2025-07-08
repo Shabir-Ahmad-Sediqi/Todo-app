@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { UserInfo, UpdateProfileBio } from "../services/authserveces";
+import { UserInfo, UpdateProfileBio, changePassword } from "../services/authserveces";
 
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile");
   const [bio, setBio] = useState("")
   const [userProfile, setUserProfile] = useState({})
+  const [msg, setMsg] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
 
   useEffect(() => {
     user()
   }, [])
+
+  useEffect(() => {
+  if (msg) {
+    const timer = setTimeout(() => setMsg(""), 3000);
+    return () => clearTimeout(timer); // cleanup if component re-renders
+  }
+}, [msg]);
 
   const user = async () => {
     try{
@@ -29,6 +39,17 @@ export default function ProfilePage() {
       await UpdateProfileBio(bio)
     }catch(error){
       console.log(`Error in updating bio ${error}`)
+    }
+  };
+
+  const updatePassword = async () => {
+    try{
+      const response = await changePassword(password, confirmPassword)
+      window.alert(response)
+      setPassword("")
+      setConfirmPassword("")
+    }catch(error){
+      setMsg(error.response?.data?.msg || "Something went wrong")
     }
   }
 
@@ -111,19 +132,28 @@ export default function ProfilePage() {
 
           {activeTab === "security" && (
             <div>
+              {msg && (
+                 <p className="text-red-600">{msg}</p>
+              )}
               <label className="block text-blue-700 mb-1">New Password</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 rounded-md bg-white border border-blue-200 mb-4 focus:outline-blue-500"
                 placeholder="Enter new password"
               />
               <label className="block text-blue-700 mb-1">Confirm Password</label>
               <input
-                type="password"
+                type="Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full p-3 rounded-md bg-white border border-blue-200 focus:outline-blue-500"
                 placeholder="Confirm password"
               />
-              <button className="mt-4 bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg transition duration-200">
+              <button
+              onClick={updatePassword}
+              className="mt-4 bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg transition duration-200">
                 Update Password
               </button>
             </div>

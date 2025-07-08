@@ -37,3 +37,7 @@ export const validateCreatePerson = {
 
     }
 };
+
+export const ValidateOnlyPassword = {
+    password: validateCreatePerson.password
+}
