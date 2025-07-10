@@ -69,10 +69,11 @@ export default function ProfilePage() {
         {/* Header */}
         <motion.div className="flex items-center space-x-6 mb-8" variants={fadeUp}>
           <img
-            src={user.avatar}
-            alt="Avatar"
-            className="w-24 h-24 rounded-full ring-4 ring-blue-400 shadow-lg"
-          />
+              src={`https://ui-avatars.com/api/?name=${userProfile.username}&background=random&color=fff`}
+              alt="Avatar"
+              className="w-24 h-24 rounded-full ring-4 ring-blue-400 shadow-lg"
+            />
+
           <div>
             <h2 className="text-3xl font-bold text-blue-900">{userProfile.username}</h2>
             <p className="text-blue-600">{userProfile.email}</p>

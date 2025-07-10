@@ -25,16 +25,6 @@ app.use('/api', users);
 dotenv.config();
 const PORT = process.env.PORT || 5000
 
-// sunc models
-
-sequelize.sync({alter: true})
-    .then(() => {
-        console.log("all models were synced successfully")
-    })
-    .catch((error) => {
-        console.log(`Error syncing models ${error}`)
-    })
-
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`)
