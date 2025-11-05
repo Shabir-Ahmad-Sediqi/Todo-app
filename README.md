@@ -69,5 +69,3 @@ Toggle the checkbox to mark tasks as completed or incomplete.
 Contribution
 Feel free to open issues or submit pull requests to improve the app.
 
-
-Extensions that i am using are the following
