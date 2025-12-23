@@ -16,7 +16,7 @@ React, Tailwind CSS, Express.js, Sequelize, PostgreSQL, Axios
 
 ## Installation and Running the App
 
-Clone the repository and navigate inside:
+Clone the repository and navigate inside.
 
 ```bash
 git clone https://github.com/your-username/mern-todo-app.git
