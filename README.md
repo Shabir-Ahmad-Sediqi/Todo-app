@@ -10,7 +10,7 @@ A simple full-stack To-Do application built with **PostgreSQL, Express, React, N
 - Backend API with Express.js and Sequelize Postgres
 - Clean and modern UI
 
-## Technologies Used.۔
+## Technologies Used.
 
 React, Tailwind CSS, Express.js, Sequelize, PostgreSQL, Axios
 
