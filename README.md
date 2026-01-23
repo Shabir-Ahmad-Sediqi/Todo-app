@@ -7,7 +7,7 @@ A simple full-stack To-Do application built with **PostgreSQL, Express, React, N
 - Add, edit,‌ delete tasks and update
 - Mark tasks as completed
 - Responsive UI built with React and Tailwind CSS
-- Backend API with Express.js and Sequelize Postgres
+- Backend API with Expressjs and Sequelize Postgres
 - Clean and modern UI
 
 ## Technologies Used.
